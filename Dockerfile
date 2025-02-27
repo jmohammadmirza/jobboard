@@ -6,6 +6,6 @@ COPY ./pom.xml pom.xml
 RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:17-jre-alpine
-COPY --from=builder target/*.jar jobboard-1.0.jar
-EXPOSE 8080
-CMD ["java","-jar","jobboard-1.0.jar"]
+COPY --from=builder target/*.jar app.jar
+EXPOSE 9090
+CMD ["java","-jar","app.jar"]
