@@ -1,11 +1,11 @@
-FROM eclipse-temurin:17-jre-alpine  AS builder 
-
-COPY ./src src/
-COPY ./pom.xml pom.xml
-
+# Build stage
+FROM maven:3.8.1-jdk-17 AS build
+COPY . .
 RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:17-jre-alpine
-COPY --from=builder target/*.jar app.jar
+# Package stage
+FROM openjdk:17-jdk-slim
+COPY --from=build /target/*.jar app.jar
 EXPOSE 9090
-CMD ["java","-jar","app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
+
