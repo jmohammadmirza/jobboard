@@ -1,0 +1,11 @@
+com\example\jobboard\service\JobService$1.class
+com\example\jobboard\repository\IpGeoDataRepository.class
+com\example\jobboard\service\JobService.class
+com\example\jobboard\JobboardApplication.class
+com\example\jobboard\AuditRepository.class
+com\example\jobboard\pojo\IpGeoData.class
+com\example\jobboard\Audit.class
+com\example\jobboard\JobController.class
+com\example\jobboard\JobRepository.class
+com\example\jobboard\service\IpGeoService.class
+com\example\jobboard\Job.class

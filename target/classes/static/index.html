@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote Job Board</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <div class="container-fluid flex-grow-1">
+        <header>
+            <h1><i class="fas fa-laptop-house"></i> Remote Job AI Agent</h1>
+            <p class="tagline">Find your dream remote job today</p>
+        </header>
+
+        <div class="search-container">
+            <form id="searchForm">
+                <div class="search-box">
+                    <input type="text" id="query" placeholder="Enter job title, skills, or location...">
+                    <button type="submit" class="search-button">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="loader" id="loader" style="display: none;">
+            <div class="spinner"></div>
+            <p>Searching for remote opportunities...</p>
+        </div>
+
+        <div id="results" class="results-container"></div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Remote Job Board | Find your perfect remote job</p>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            $('#searchForm').on('submit', function(event) {
+                event.preventDefault();
+                const query = $('#query').val();
+                const jobType = $('#jobType').val();
+                const experience = $('#experience').val();
+                
+                // Show loader
+                $('#loader').show();
+                $('#results').hide();
+                
+                // Build the query string with all parameters
+                let apiUrl = '/api/jobs/live?query=' + query;
+                if (jobType) {
+                    //apiUrl += '&jobType=' + jobType;
+                }
+                if (experience) {
+                   // apiUrl += '&experience=' + experience;
+                }
+                
+                // Fetch data from API
+                fetch(apiUrl)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Hide loader
+                        $('#loader').hide();
+                        $('#results').show();
+                        
+                        // Display the jobs
+                        displayJobs(data);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching job data:', error);
+                        $('#loader').hide();
+                        $('#results').show().html('<div class="no-results">Error loading jobs. Please try again.</div>');
+                    });
+            });
+            
+            function displayJobs(jobs) {
+                const resultsDiv = $('#results');
+                resultsDiv.empty();
+
+                if (jobs.length === 0) {
+                    resultsDiv.html('<div class="no-results">No jobs found. Try different search criteria.</div>');
+                    return;
+                }
+
+                let accordionHtml = '<div class="accordion d-grid gap-3" id="jobsAccordion">'; // Start accordion
+
+                jobs.forEach((job, index) => {
+                    accordionHtml += `
+                        <div class="accordion-item rounded">
+                            <h2 class="accordion-header" id="heading${index}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${index}" aria-expanded="false" aria-controls="collapse${index}">
+                                     <div class="job-header">
+                                    <div class="job-header-content">
+
+                                    <h2>${job.title}</h2>
+
+                                    <div class="company-info">
+
+                                        <h3>${job.companyName}</h3>
+
+                                        <span class="location"><i class="fas fa-map-marker-alt"></i> ${job.location}</span>
+
+                                    </div>
+
+                                </div>
+                                </div>
+                                </button>
+                            </h2>
+                            <div id="collapse${index}" class="accordion-collapse collapse" aria-labelledby="heading${index}" data-bs-parent="#jobsAccordion">
+                                <div class="accordion-body">
+                                    <div class="job-description">
+                                        <h4>Description</h4>
+                                        <p>${job.description}</p>
+                                    </div>
+                                    <div class="application-section">
+                                        <a href="${job.applyLink}" class="btn btn-primary" target="_blank">
+                                            <i class="fas fa-paper-plane"></i> Apply Now
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                accordionHtml += '</div>'; // Close accordion
+                resultsDiv.html(accordionHtml);
+  
+            }
+        });
+    </script>
+</body>
+</html>

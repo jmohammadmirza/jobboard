@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Remote Job Board</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-laptop-house"></i> Remote Job Board</h1>
+            <p class="tagline">Find your dream remote job today</p>
+        </header>
+  
+        <div class="search-container">
+            <form id="searchForm">
+                <div class="search-box">
+                    <input type="text" id="query" placeholder="Enter job title, skills, or location...">
+                    <button type="submit" class="search-button">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+                <div class="search-filters">
+                    <select id="jobType">
+                        <option value="">All Job Types</option>
+                        <option value="full-time">Full-Time</option>
+                        <option value="part-time">Part-Time</option>
+                        <option value="contract">Contract</option>
+                    </select>
+                    <select id="experience">
+                        <option value="">All Experience Levels</option>
+                        <option value="entry">Entry Level</option>
+                        <option value="mid">Mid Level</option>
+                        <option value="senior">Senior Level</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+
+        <div class="loader" id="loader" style="display: none;">
+            <div class="spinner"></div>
+            <p>Searching for remote opportunities...</p>
+        </div>
+
+
+    <div class="results-container" id="results"></div>
+ </div>
+ <footer>
+    <p>&copy; 2025 Remote Job Board | Find your perfect remote job</p>
+</footer>
+    <script>
+        const searchForm = document.getElementById('searchForm');
+        searchForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const query = document.getElementById('query').value;
+
+            fetch('/api/jobs?query=' + query)
+                .then(response => response.json())
+                .then(data => {
+                    const resultsDiv = document.getElementById('results');
+                    resultsDiv.innerHTML = '';
+                    data.forEach(job => {
+                        const jobDiv = document.createElement('div');
+                        jobDiv.innerHTML = `
+                            <h2>${job.title}</h2>
+                            <h3>${job.companyName}</h3>
+                            <p>${job.location}</p>
+                            <p>${job.description}</p>
+                            <a href="${job.applyLink}" class="apply-button"><i class="fas fa-paper-plane"></i> Apply Now</a>
+                        `;
+                        resultsDiv.appendChild(jobDiv);
+                    });
+                });
+        });
+    </script>
+</body>
+</html>
