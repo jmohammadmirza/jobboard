@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre-alpine  AS builder 
 
 COPY ./src src/
 COPY ./pom.xml pom.xml
