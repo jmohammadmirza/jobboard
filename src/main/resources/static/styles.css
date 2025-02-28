@@ -47,7 +47,7 @@
   header {
     text-align: center;
     padding: 50px 0 30px;
-    background: linear-gradient(135deg, var(--primary-color), #7986cb);
+    background: linear-gradient(180deg, #06c9eb, #179b8800);
     color: white;
     border-radius: 0 0 var(--border-radius) var(--border-radius);
     margin-bottom: 30px;
