@@ -79,7 +79,7 @@ public class JobService {
     }
 
     @Async
-    public void logUserActivity(String query, HttpServletRequest request) throws IOException {
+    public void logUserActivity(String auditTrackingId,String query, HttpServletRequest request) throws IOException {
 
         // GET IP address
         String ipAddress = request.getHeader("X-Forwarded-For");
@@ -95,17 +95,30 @@ public class JobService {
        
              String location = ipGeoService.saveIpGeoData(ipAddress);
              String userAgent = request.getHeader("User-Agent");
-         
+
+            // Thread.sleep(10000);
+
                  Audit audit = new Audit();
                  audit.setQuery(query);
                  audit.setTimestamp(new Date());
                  audit.setIpAddress(ipAddress);
                  audit.setLocation(location.isBlank()?"UNKNOWN":location);
                  audit.setUserAgent(userAgent);
+                 audit.setAuditTrackingId(auditTrackingId);
                  auditRepository.save(audit);
                  
     }
-               
+    @Async
+    public void updateAuditResponse(String auditTrackingId, String responseStatus,int responseCode)  {
+       // Thread.sleep(10000);
+        List<Audit> audits = auditRepository.findByAuditTrackingId(auditTrackingId);
+        if(!audits.isEmpty()){
+            Audit audit = audits.get(0);
+            audit.setResponseSentToUser(responseStatus);
+            audit.setResponseCode(responseCode);
+            auditRepository.save(audit);
+        }
+    }
       
     @Async
     public void saveAll(List<Job> jobList) {

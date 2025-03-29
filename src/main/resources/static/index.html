@@ -26,6 +26,12 @@
                         <i class="fas fa-search"></i> Search
                     </button>
                 </div>
+                <div class="col-auto"> <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked="">
+                    <label class="form-check-label" for="flexCheckChecked">
+                        Real-Time Feed
+                    </label>
+                </div>
+
             </form>
         </div>
 
@@ -48,13 +54,20 @@
                 const query = $('#query').val();
                 const jobType = $('#jobType').val();
                 const experience = $('#experience').val();
-                
+                const isLive = $('#flexCheckChecked').is(':checked');
+
                 // Show loader
                 $('#loader').show();
                 $('#results').hide();
                 
                 // Build the query string with all parameters
-                let apiUrl = '/api/jobs/live?query=' + query;
+
+                let apiUrl;
+                if(isLive){
+                 apiUrl = '/api/jobs/live?query=' + query;
+                }else{
+                  apiUrl = '/api/jobs?query=' + query;
+                }
                 if (jobType) {
                     //apiUrl += '&jobType=' + jobType;
                 }
