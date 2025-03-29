@@ -15,7 +15,29 @@ public class Audit {
     private String ipAddress;
     private String location;
     private String userAgent;
-    
+    private String auditTrackingId;
+    private int responseCode;
+
+    public int getResponseCode() {
+        return responseCode;
+    }
+
+    public void setResponseCode(int responseCode) {
+        this.responseCode = responseCode;
+    }
+
+    private String responseSentToUser;
+
+    public String getResponseSentToUser() {
+        return responseSentToUser;
+    }
+
+    public void setResponseSentToUser(String responseSentToUser) {
+        this.responseSentToUser = responseSentToUser;
+    }
+
+
+
     public String getUserAgent() {
         return userAgent;
     }
@@ -64,5 +86,13 @@ public class Audit {
 
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
+    }
+
+    public String getAuditTrackingId() {
+        return auditTrackingId;
+    }
+
+    public void setAuditTrackingId(String auditTrackingId) {
+        this.auditTrackingId = auditTrackingId;
     }
 }
