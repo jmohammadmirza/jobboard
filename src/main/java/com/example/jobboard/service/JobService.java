@@ -41,7 +41,7 @@ public class JobService {
 
     public List<Job> fetchJobs(String query) throws IOException {
 
-        String url = "https://www.searchapi.io/api/v1/search?api_key=" + API_KEY + "&engine=google_jobs&q=" + query + "+remote";
+        String url = "https://www.searchapi.io/api/v1/search?api_key=" + API_KEY + "&engine=google_jobs&q=" + query + "+ fully remote";
 
         Request request = new Request.Builder()
                 .url(url)
