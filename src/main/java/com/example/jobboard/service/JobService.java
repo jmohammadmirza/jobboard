@@ -72,7 +72,9 @@ public class JobService {
                 jobList.add(jobEntity);
             }
 
-            saveAll(jobList);
+          //  saveAll(jobList);
+
+            System.out.println("job data size :: " +jobList.size());
 
             return jobList;
         }
