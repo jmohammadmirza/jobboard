@@ -3,6 +3,7 @@ package com.example.jobboard;
 import com.example.jobboard.service.JobService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,9 +22,9 @@ public class JobController {
     @Autowired
     JobService jobService;
 
-    //int success= HttpStatus.OK.value();
-   // String sucessMsg="response sent to user";
-   // int error=HttpStatus.NO_CONTENT.value();
+    int success= HttpStatus.OK.value();
+    String successMsg ="response sent to user";
+    int error= HttpStatus.NO_CONTENT.value();
 
  
     @GetMapping("/jobs/live")
@@ -32,12 +33,12 @@ public class JobController {
         String auditTrackingId= UUID.randomUUID().toString();
        try {
 
-           // jobService.logUserActivity(auditTrackingId,query,request);
+            jobService.logUserActivity(auditTrackingId,query,request);
             alljobs=jobService.fetchJobs(query);
-          // jobService.updateAuditResponse(auditTrackingId,sucessMsg,success);
+           jobService.updateAuditResponse(auditTrackingId, successMsg,success);
 
         } catch (IOException e) {
-           //jobService.updateAuditResponse(auditTrackingId,e.getLocalizedMessage(),error);
+           jobService.updateAuditResponse(auditTrackingId,e.getLocalizedMessage(),error);
             e.printStackTrace();
            
         }

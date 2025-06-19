@@ -72,7 +72,7 @@ public class JobService {
                 jobList.add(jobEntity);
             }
 
-          //  saveAll(jobList);
+            saveAll(jobList);
 
             System.out.println("job data size :: " +jobList.size());
 
@@ -125,7 +125,7 @@ public class JobService {
     @Async
     public void saveAll(List<Job> jobList) {
 
-       System.out.println("data size" +jobList.size());
+       System.out.println(" saveALL data size" +jobList.size());
             jobRepository.saveAll(jobList);
     }
     
