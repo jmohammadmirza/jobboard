@@ -37,7 +37,7 @@ public class JobService {
 
     private final OkHttpClient client = new OkHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private static final String API_KEY = "c9dwvGcDNNek15Azs3Rd6QQR";
+    private static final String API_KEY = "Yd2zsFZhgaeFe4QNeH6Dwf3B";//""c9dwvGcDNNek15Azs3Rd6QQR";
 
     public List<Job> fetchJobs(String query) throws IOException {
 
@@ -80,7 +80,7 @@ public class JobService {
         }
     }
 
-    @Async
+
     public void logUserActivity(String auditTrackingId,String query, HttpServletRequest request) throws IOException {
 
         // GET IP address
