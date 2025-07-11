@@ -1,6 +1,7 @@
 package com.example.jobboard.service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -69,6 +70,7 @@ public class JobService {
                 jobEntity.setDescription((String) job.get("description"));
                 jobEntity.setApplyLink((String) job.get("apply_link"));
                 jobEntity.setUserInput(query);
+                jobEntity.setInsertedDate(LocalDateTime.now());
                 jobList.add(jobEntity);
             }
 

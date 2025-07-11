@@ -3,6 +3,8 @@ package com.example.jobboard;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
+
 @Document(collection = "jobs")
 public class Job {
 
@@ -14,7 +16,16 @@ public class Job {
     private String description;
     private String applyLink;
     private String userInput;
-    
+    private LocalDateTime insertedDate;
+
+    public LocalDateTime getInsertedDate() {
+        return insertedDate;
+    }
+
+    public void setInsertedDate(LocalDateTime insertedDate) {
+        this.insertedDate = insertedDate;
+    }
+
     public String getUserInput() {
         return userInput;
     }
