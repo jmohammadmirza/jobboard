@@ -1,4 +1,4 @@
-package com.example.jobboard;
+package com.creative.jobboard.pojo;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

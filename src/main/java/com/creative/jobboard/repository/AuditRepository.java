@@ -1,5 +1,6 @@
-package com.example.jobboard;
+package com.creative.jobboard.repository;
 
+import com.creative.jobboard.pojo.Audit;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;

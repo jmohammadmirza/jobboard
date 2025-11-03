@@ -1,4 +1,4 @@
-package com.example.jobboard.config;
+package com.creative.jobboard.config;
 
 import com.google.common.util.concurrent.RateLimiter;
 import org.springframework.core.annotation.Order;

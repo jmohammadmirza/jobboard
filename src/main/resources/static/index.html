@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-auto"> <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked="">
                     <label class="form-check-label" for="flexCheckChecked">
-                        Real-Time Feed
+                        AI Agents Feed
                     </label>
                 </div>
 
@@ -64,7 +64,7 @@
 
                 let apiUrl;
                 if(isLive){
-                 apiUrl = '/api/jobs?query=' + query;
+                 apiUrl = '/api/jobs-agent?query=' + query;
                 }else{
                   apiUrl = '/api/jobs?query=' + query;
                 }
@@ -119,14 +119,12 @@
 
                                     <h2>${job.title}</h2>
 
-                                    <div class="company-info">
+                                  <div class="company-info">
 
-                                        <h3>${job.companyName}</h3>
+                                        <h3>${job.companyName || 'Tech'}</h3>
 
-                                        <span class="location"><i class="fas fa-map-marker-alt"></i> ${job.location}</span>
-
+                                        <span class="location"><i class="fas fa-map-marker-alt"></i> ${job.location || 'Remote'}</span>
                                     </div>
-
                                 </div>
                                 </div>
                                 </button>
@@ -135,7 +133,7 @@
                                 <div class="accordion-body">
                                     <div class="job-description">
                                         <h4>Description</h4>
-                                        <p>${job.description}</p>
+                                        <p>${job.jobDescription}</p>
                                     </div>
                                     <div class="application-section">
                                         <a href="${job.applyLink}" class="btn btn-primary" target="_blank">

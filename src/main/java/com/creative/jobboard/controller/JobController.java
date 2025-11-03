@@ -1,6 +1,8 @@
-package com.example.jobboard;
+package com.creative.jobboard.controller;
 
-import com.example.jobboard.service.JobService;
+import com.creative.jobboard.pojo.Job;
+import com.creative.jobboard.pojo.JobsAgent;
+import com.creative.jobboard.service.JobService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,9 +28,9 @@ public class JobController {
     String successMsg ="response sent to user";
     int error= HttpStatus.NO_CONTENT.value();
 
- 
+
     @GetMapping("/jobs/live")
-    public List<Job> getJobs(@RequestParam String query,HttpServletRequest request)  {
+    public List<Job> getJobs(@RequestParam String query, HttpServletRequest request)  {
         List<Job> alljobs=new ArrayList<>();
         String auditTrackingId= UUID.randomUUID().toString();
        try {
@@ -54,4 +56,11 @@ public class JobController {
        return jobService.findByTitleLike(query);
 
      }
+
+    @GetMapping("/jobs-agent")
+    public List<JobsAgent> triggerJobsAIAgent(@RequestParam String query, HttpServletRequest request) {
+
+        return jobService.triggerAgentFindByTitleLike(query);
+
+    }
 }

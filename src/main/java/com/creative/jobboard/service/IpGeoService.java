@@ -1,6 +1,7 @@
-package com.example.jobboard.service;
+package com.creative.jobboard.service;
 
-import com.example.jobboard.pojo.IpGeoData;
+import com.creative.jobboard.repository.IpGeoDataRepository;
+import com.creative.jobboard.pojo.IpGeoData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -17,7 +18,7 @@ public class IpGeoService {
     private static final String API_KEY = "9078fc9d5716466db2bb5bd6311d0d81";
 
     @Autowired
-    private com.example.jobboard.repository.IpGeoDataRepository ipGeoDataRepository;
+    private IpGeoDataRepository ipGeoDataRepository;
 
     public String saveIpGeoData(String ipAddress) throws IOException {
 

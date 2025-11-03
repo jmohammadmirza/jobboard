@@ -1,4 +1,4 @@
-package com.example.jobboard.service;
+package com.creative.jobboard.service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -7,15 +7,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.creative.jobboard.pojo.JobsAgent;
+import com.creative.jobboard.repository.JobsAgentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.example.jobboard.Audit;
-import com.example.jobboard.AuditRepository;
-import com.example.jobboard.Job;
-import com.example.jobboard.JobRepository;
+import com.creative.jobboard.pojo.Audit;
+import com.creative.jobboard.repository.AuditRepository;
+import com.creative.jobboard.pojo.Job;
+import com.creative.jobboard.repository.JobRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -35,13 +37,16 @@ public class JobService {
 
     @Autowired
     private IpGeoService ipGeoService;
+    
+    @Autowired
+    private JobsAgentRepository jobsAgentRepository;
 
     private final OkHttpClient client = new OkHttpClient();
     private final ObjectMapper objectMapper = new ObjectMapper();
     private static final String API_KEY = "Yd2zsFZhgaeFe4QNeH6Dwf3B";//""c9dwvGcDNNek15Azs3Rd6QQR";
 
     public List<Job> fetchJobs(String query) throws IOException {
-
+        System.out.println("fetchJobs :: " +query);
         String url = "https://www.searchapi.io/api/v1/search?api_key=" + API_KEY + "&engine=google_jobs&q=" + query + "+ fully remote";
 
         Request request = new Request.Builder()
@@ -54,6 +59,8 @@ public class JobService {
             }
 
             String responseBody = response.body().string();
+
+            System.out.println("fetchJobs :: " +responseBody.length());
             Map<String, Object> responseMap = objectMapper.readValue(responseBody, new TypeReference<Map<String, Object>>() {});
             List<Map<String, Object>> jobs = (List<Map<String, Object>>) responseMap.get("jobs");
 
@@ -146,5 +153,22 @@ public class JobService {
 
        return allJobs;
    }
+
+    public List<JobsAgent> triggerAgentFindByTitleLike(String query){
+
+        String regexQuery = ".*" + query + ".*";
+        Sort sort = Sort.by(Sort.Direction.DESC, "id");
+
+        List<JobsAgent> jobsAgents= jobsAgentRepository.findByTitleRegexSortedByIdDesc(regexQuery,sort);
+
+        jobsAgents.forEach(e -> {
+            String updatedDesc = e.getJobDescription().replaceAll("(\\r\\n|\\n)", "<br>");
+            String secondUpdatedDesc=updatedDesc.replaceAll("\\*\\*(.*?)\\*\\*", "<h4>$1</h4>");
+            e.setJobDescription(secondUpdatedDesc);
+        });
+
+
+        return jobsAgents;
+    }
    
 }
