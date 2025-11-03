@@ -133,7 +133,7 @@
                                 <div class="accordion-body">
                                     <div class="job-description">
                                         <h4>Description</h4>
-                                        <p>${job.jobDescription}</p>
+                                        <p>${job.jobDescription || job.description}</p>
                                     </div>
                                     <div class="application-section">
                                         <a href="${job.applyLink}" class="btn btn-primary" target="_blank">
